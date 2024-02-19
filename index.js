@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
   });
 
   // Set up route to display uploaded files
-app.get('/files', (req, res) => {
+app.get('/', (req, res) => {
   // Get list of files in the uploads directory
   fs.readdir('uploads', (err, files) => {
     if (err) {

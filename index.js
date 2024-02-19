@@ -30,7 +30,7 @@ app.get('/files', (req, res) => {
     // Generate HTML to display file list with download links
     let fileListHtml = '<h1>Uploaded Files</h1><ul>';
     files.forEach(file => {
-      fileListHtml += `<li><a href="/uploads/${file}" download>${file}</a></li>`;
+      fileListHtml += `<li><a href="/${file}" download>${file}</a></li>`;
     });
     fileListHtml += '</ul>';
     

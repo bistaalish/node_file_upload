@@ -2,6 +2,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require('path');
+const fs = require('fs')
 
 // Create Express app
 const app = express();
@@ -16,6 +17,28 @@ const storage = multer.diskStorage({
       cb(null, file.originalname)
     }
   });
+
+  // Set up route to display uploaded files
+app.get('/files', (req, res) => {
+  // Get list of files in the uploads directory
+  fs.readdir('uploads', (err, files) => {
+    if (err) {
+      console.error('Error reading directory:', err);
+      return res.status(500).send('Error reading directory');
+    }
+    
+    // Generate HTML to display file list with download links
+    let fileListHtml = '<h1>Uploaded Files</h1><ul>';
+    files.forEach(file => {
+      fileListHtml += `<li><a href="/uploads/${file}" download>${file}</a></li>`;
+    });
+    fileListHtml += '</ul>';
+    
+    // Send HTML response
+    res.send(fileListHtml);
+  });
+});
+
 
 // Initialize multer middleware for multiple file uploads
 const upload = multer({ storage: storage }).array('files');
